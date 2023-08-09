@@ -10,5 +10,6 @@ jobs:
   actionlint:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - name: Lint GitHub Action Workflows
         uses: eifinger/actionlint-action@v1
