@@ -10,6 +10,6 @@
       call-other-workflow:
         runs-on: ubuntu-latest
         steps:
-            - uses: .github/workflows/this-gets-called.yml
+            - uses: eifinger/actionlint-playground/.github/workflows/this-gets-called.yml
               with:
                 missingInput: "This should be caught by actionlint"
