@@ -1,0 +1,11 @@
+---
+name: This gets called
+
+"on":
+  workflow_call:
+
+jobs:
+  echo-input:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "We could do something with an input here"

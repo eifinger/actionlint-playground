@@ -1,0 +1,15 @@
+---
+    name: This gets called
+    
+    "on":
+      push:
+        branches:
+          - main
+    
+    jobs:
+      call-other-workflow:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: .github/workflows/this-gets-called.yml
+              with:
+                missingInput: "This should be caught by actionlint"
