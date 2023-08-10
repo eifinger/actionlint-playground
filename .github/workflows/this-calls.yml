@@ -1,13 +1,13 @@
 ---
-    name: This gets called
-    
-    "on":
-      push:
-        branches:
-          - main
-    
-    jobs:
-      call-other-workflow:
-        uses: eifinger/actionlint-playground/.github/workflows/this-gets-called.yml@main
-        with:
-          missingInput: "This should be caught by actionlint"
+name: This calls
+
+"on":
+  push:
+    branches:
+      - main
+
+jobs:
+  call-other-workflow:
+    uses: eifinger/actionlint-playground/.github/workflows/this-gets-called.yml@main
+    with:
+      missingInput: "This should be caught by actionlint"
