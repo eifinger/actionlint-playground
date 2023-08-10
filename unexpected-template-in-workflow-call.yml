@@ -1,0 +1,17 @@
+---
+name: Unexpected template in workflow call
+
+"on":
+  workflow_dispatch:
+    inputs:
+      templateInput:
+        description: "If left at default this causes an error"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  call-other-workflow:
+    uses: eifinger/actionlint-playground/.github/workflows/this-gets-called.yml@main
+    with:
+      templateInput: ${{ inputs.templateInput }}
