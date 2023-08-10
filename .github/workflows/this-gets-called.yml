@@ -3,6 +3,12 @@ name: This gets called
 
 "on":
   workflow_call:
+  workflow_dispatch:
+    inputs:
+      missingInput:
+        description: 'This input is missing for workflow_call'
+        required: true
+        type: string
 
 jobs:
   echo-input:
