@@ -1,0 +1,29 @@
+---
+name: Vulnerability Test
+"on":
+  workflow_dispatch:
+jobs:
+  vulnarability-test:
+    name: "Run trivy on OCI image"
+    runs-on: ubuntu-latest
+    services:
+      registry:
+        image: registry:2
+        ports:
+          - 5000:5000
+    steps:
+      - name: Push docker image to local registry
+        run: |
+          docker pull ubuntu:latest
+          docker tag ubuntu:latest localhost:5000/ubuntu:latest
+          docker push localhost:5000/ubuntu:latest
+          docker rmi ubuntu:latest localhost:5000/ubuntu:latest
+
+      - name: Run Trivy vulnerability scanner
+        continue-on-error: true
+        uses: aquasecurity/trivy-action@fbd16365eb88e12433951383f5e99bd901fc618f  # 0.12.0
+        with:
+          image-ref: "localhost:5000/ubuntu:latest"
+          trivy-config: .trivy.yml
+        env:
+          TRIVY_NON_SSL: true
