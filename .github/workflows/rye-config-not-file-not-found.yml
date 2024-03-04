@@ -11,6 +11,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - run: curl -sSf https://rye-up.com/get | RYE_INSTALL_OPTION="--yes" bash
-            - run: source "$HOME/.rye/env" && RYE_HOME=/tmp/random_path rye config --set-bool behavior.use-uv=true
+            - run: source "$HOME/.rye/env" && RYE_HOME=/tmp/random_path RUST_BACKTRACE=1 rye config --set-bool behavior.use-uv=true
     
     
