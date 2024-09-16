@@ -18,4 +18,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: install hatch
-        run: uv pip install --python 3.12 hatch
+        run: |
+          pwd
+          uv pip install --python 3.12 hatch
