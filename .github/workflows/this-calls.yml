@@ -2,9 +2,7 @@
 name: This calls
 
 "on":
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   call-other-workflow:

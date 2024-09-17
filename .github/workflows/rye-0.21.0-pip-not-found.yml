@@ -2,9 +2,7 @@
 name: Reproduce rye 0.21.0 pip not found error
 
 "on":
-    push:
-        branches:
-            - main
+    workflow_dispatch:
 
 jobs:
     rye:

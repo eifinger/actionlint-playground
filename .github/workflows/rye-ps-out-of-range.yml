@@ -2,9 +2,7 @@
 name: Reproduce rye ps out of range
 
 "on":
-    push:
-        branches:
-            - main
+    workflow_dispatch:
 
 jobs:
     rye:
