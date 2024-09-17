@@ -1,0 +1,21 @@
+name: setup-rye-exit-code
+on:
+  workflow_dispatch:
+
+
+jobs:
+  rye-check:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.8.10"
+
+      - uses: eifinger/setup-rye@v4
+        with:
+          version: "0.38.0"
+          enable-cache: false
+
+      - run: rye --version
