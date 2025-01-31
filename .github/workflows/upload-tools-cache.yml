@@ -1,0 +1,15 @@
+name: upload-tools-cache
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    name: cache
+    runs-on: ubuntu-latest
+
+    steps:
+      - run: ls $RUNNER_TOOL_CACHE
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v2
+      - run: ls $RUNNER_TOOL_CACHE
