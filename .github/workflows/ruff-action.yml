@@ -1,0 +1,14 @@
+name: ruff-action
+on:
+  workflow_dispatch:
+
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "ruff==0.8.3" >> requirements.txt
+      - name: Lint
+        uses: astral-sh/ruff-action@debug-version-file
+        with:
+          version-file: "requirements.txt"
