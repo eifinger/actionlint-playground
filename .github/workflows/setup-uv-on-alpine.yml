@@ -1,0 +1,16 @@
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    container: alpine
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v2
+        with:
+          enable-cache: true
+      - run: uv init test
