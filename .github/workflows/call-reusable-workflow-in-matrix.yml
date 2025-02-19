@@ -15,6 +15,6 @@ jobs:
     needs: call-other-workflow
     steps:
       - run: |
-          echo "Needs: ${{ needs }}"
-          echo "Needs.call-other-workflow.outputs: ${{ needs.call-other-workflow.outputs }}"
+          echo "Needs: ${{ toJSON(needs) }}"
+          echo "Needs.call-other-workflow.outputs: ${{ toJSON(needs.call-other-workflow.outputs) }}"
           echo "The result was ${{ needs.call-other-workflow.outputs.name }}"
