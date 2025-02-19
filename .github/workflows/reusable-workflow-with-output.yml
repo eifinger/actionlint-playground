@@ -25,5 +25,5 @@ jobs:
     steps:
       - id: set-output
         run: |
-          echo "name=${{ github.event.inputs.name }}-test"
-          echo "name=${{ github.event.inputs.target }}-test" >> "$GITHUB_OUTPUT"
+          echo "name=${{ inputs.name }}-test"
+          echo "name=${{ inputs.name }}-test" >> "$GITHUB_OUTPUT"
