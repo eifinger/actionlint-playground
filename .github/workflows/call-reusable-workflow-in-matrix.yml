@@ -1,0 +1,17 @@
+---
+"on":
+  workflow_dispatch:
+
+jobs:
+  call-other-workflow:
+    strategy:
+      matrix:
+        target: [dev, stage, prod]
+    uses: ./.github/workflows/reusable-workflow-with-output.yml
+    with:
+      name: ${{ matrix.target }}
+  follow-up:
+    runs-on: ubuntu-latest
+    needs: call-other-workflow
+    steps:
+      - run: echo "The result was ${{ needs.call-other-workflow.outputs.name }}"

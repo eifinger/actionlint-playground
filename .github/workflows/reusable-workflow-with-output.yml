@@ -1,0 +1,29 @@
+---
+"on":
+  workflow_call:
+    inputs:
+      name:
+        description: "Name of the target to build"
+        required: true
+        type: string
+    outputs:
+      name:
+        description: "The name of the result"
+        value: ${{ jobs.build.outputs.name }}
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Name of the target to build"
+        required: true
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      name: ${{ steps.set-output.outputs.name }}
+    steps:
+      - id: set-output
+        run: |
+          echo "name=${{ github.event.inputs.name }}-test"
+          echo "name=${{ github.event.inputs.target }}-test" >> "$GITHUB_OUTPUT"
