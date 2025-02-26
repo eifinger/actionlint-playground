@@ -1,0 +1,29 @@
+---
+name: Child 2
+
+"on":
+  workflow_call:
+    inputs:
+      templateInput:
+        description: "Just a boolean input"
+        type: boolean
+        required: false
+        default: false
+  workflow_dispatch:
+    inputs:
+      missingInput:
+        description: 'This input is missing for workflow_call'
+        required: true
+        type: string
+      templateInput:
+        description: "Just a boolean input"
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  echo-input:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "templateInput: ${{ inputs.templateInput }}"
