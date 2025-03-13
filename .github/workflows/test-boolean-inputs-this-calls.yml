@@ -5,6 +5,10 @@ name: Test boolean inputs this calls
   workflow_dispatch:
 
 jobs:
+  call-with-false:
+    uses: ./.github/workflows/test-boolean-inputs.yml
+    with:
+      booleanInput: false
   call-with-true:
     uses: ./.github/workflows/test-boolean-inputs.yml
     with:
