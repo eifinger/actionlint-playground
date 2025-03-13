@@ -1,0 +1,11 @@
+---
+name: Test boolean inputs this calls
+
+"on":
+  workflow_dispatch:
+
+jobs:
+  call-with-true:
+    uses: .github/workflows/test-boolean-inputs.yml
+    with:
+      booleanInput: true
