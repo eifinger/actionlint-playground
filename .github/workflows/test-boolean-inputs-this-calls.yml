@@ -6,6 +6,6 @@ name: Test boolean inputs this calls
 
 jobs:
   call-with-true:
-    uses: .github/workflows/test-boolean-inputs.yml
+    uses: ./.github/workflows/test-boolean-inputs.yml
     with:
       booleanInput: true
