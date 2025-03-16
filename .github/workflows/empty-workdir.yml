@@ -10,3 +10,6 @@ jobs:
     steps:
       - run: ls -la
       - uses: astral-sh/setup-uv@warn-on-empty-workdir
+      - uses: astral-sh/setup-uv@warn-on-empty-workdir
+        with:
+          ignore-empty-workdir: false
