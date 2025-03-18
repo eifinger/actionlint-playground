@@ -28,8 +28,8 @@ jobs:
     if: always()
     steps:
       - run: |
-          echo "Failure: ${{ !contains(needs.*.result, 'failure') }}"
-          exit ${{ !contains(needs.*.result, 'failure') && 0 || 1 }}
+          echo "Failure: ${{ contains(needs.*.result, 'failure') }}"
+          exit ${{ contains(needs.*.result, 'failure') && 1 || 0 }}
 
   all-success-but-failing:
     name: all-success-but-failing
@@ -38,5 +38,5 @@ jobs:
     if: always()
     steps:
       - run: |
-          echo "Failure: ${{ !contains(needs.*.result, 'failure') }}"
-          exit ${{ !contains(needs.*.result, 'failure') && 0 || 1 }}
+          echo "Failure: ${{ contains(needs.*.result, 'failure') }}"
+          exit ${{ contains(needs.*.result, 'failure') && 1 || 0 }}
