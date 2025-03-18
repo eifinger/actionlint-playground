@@ -1,0 +1,42 @@
+name: check-all-success-jobs
+on:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Testing something"
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Linting something"
+  failing:
+    name: failing
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Failing something"
+      - run: exit 1
+
+  all-success:
+    name: all-success
+    runs-on: ubuntu-latest
+    needs: [test, lint, failing]
+    if: always()
+    steps:
+      - run: |
+          echo "Failure: ${{ !contains(needs.*.result, 'failure') }}"
+          exit ${{ !contains(needs.*.result, 'failure') && 0 || 1 }}
+
+  all-success-but-failing:
+    name: all-success-but-failing
+    runs-on: ubuntu-latest
+    needs: [test, lint]
+    if: always()
+    steps:
+      - run: |
+          echo "Failure: ${{ !contains(needs.*.result, 'failure') }}"
+          exit ${{ !contains(needs.*.result, 'failure') && 0 || 1 }}
