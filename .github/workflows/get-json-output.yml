@@ -1,0 +1,19 @@
+---
+name: Get JSON output
+
+"on":
+  workflow_dispatch:
+
+jobs:
+  get-output:
+    uses: ./.github/workflows/this-gets-called.yml
+  print:
+    runs-on: ubuntu-latest
+    needs: get-output
+    steps:
+      - run: |
+          echo "arrayOutput: ${{ needs.get-output.outputs.arrayOutput }}"
+          echo "arrayOutput: ${{ fromJson(needs.get-output.outputs.arrayOutput) }}"
+          echo "arrayOutput: ${{ fromJson(needs.get-output.outputs.arrayOutput)[0] }}"
+          echo "arrayOutput: ${{ fromJson(needs.get-output.outputs.arrayOutput)[1] }}"
+          echo "arrayOutput: ${{ fromJson(needs.get-output.outputs.arrayOutput)[2] }}"
