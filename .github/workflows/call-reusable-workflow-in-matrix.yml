@@ -35,6 +35,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [first-dependency, second-dependency, third-dependency]
     steps:
-      - run: |
+      - name: Plain
+        continue-on-error: true
+        run: |
+          echo "Names: ${{ needs.*.outputs.name }}"
+      - name: toJSON
+        continue-on-error: true
+        run: |
           echo "Names toJSON: ${{ toJSON(needs.*.outputs.name) }}"
+      - name: fromJSON
+        continue-on-error: true
+        run: |
           echo "Names fromJSON: ${{ fromJSON(needs.*.outputs.name) }}"
