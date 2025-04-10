@@ -36,6 +36,5 @@ jobs:
     needs: [first-dependency, second-dependency, third-dependency]
     steps:
       - run: |
-          echo "Names: ${{ needs.*.outputs.name }}"
           echo "Names toJSON: ${{ toJSON(needs.*.outputs.name) }}"
           echo "Names fromJSON: ${{ fromJSON(needs.*.outputs.name) }}"
