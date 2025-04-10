@@ -47,3 +47,7 @@ jobs:
         continue-on-error: true
         run: |
           echo "Names fromJSON: ${{ fromJSON(needs.*.outputs.name) }}"
+      - name: Joined
+        continue-on-error: true
+        run: |
+          echo "Joined: ${{ join(needs.*.outputs.name, ',') }}"
