@@ -18,3 +18,22 @@ jobs:
           echo "Needs: ${{ toJSON(needs) }}"
           echo "Needs.call-other-workflow.outputs: ${{ toJSON(needs.call-other-workflow.outputs) }}"
           echo "The result was ${{ needs.call-other-workflow.outputs.name }}"
+
+  first-dependency:
+    uses: ./.github/workflows/reusable-workflow-with-output.yml
+    with:
+      name: "first"
+  second-dependency:
+    uses: ./.github/workflows/reusable-workflow-with-output.yml
+    with:
+      name: "second"
+  third-dependency:
+    uses: ./.github/workflows/reusable-workflow-with-output.yml
+    with:
+      name: "third"
+  collector:
+    runs-on: ubuntu-latest
+    needs: [first-dependency, second-dependency, third-dependency]
+    steps:
+      - run: |
+          echo "Names: ${{ toJSON(needs.*.outputs.name) }}"
