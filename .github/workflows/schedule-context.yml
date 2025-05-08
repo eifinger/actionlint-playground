@@ -5,11 +5,11 @@
     - cron: '*/5 * * * *'
 
 jobs:
-  actionlint:
+  context:
     runs-on: ubuntu-latest
     steps:
       - run: |
           echo "Event name: ${{ github.event_name }}"
           echo "Current ref: ${{ github.ref }}"
           echo "Current ref_name: ${{ github.ref_name }}"
-          echo "Github context: ${{ github }}"
+          echo "Github context: ${{ fromJson(github) }}"
