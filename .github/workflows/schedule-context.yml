@@ -12,3 +12,12 @@ jobs:
           echo "Event name: ${{ github.event_name }}"
           echo "Current ref: ${{ github.ref }}"
           echo "Current ref_name: ${{ github.ref_name }}"
+
+  if-job:
+    runs-on: ubuntu-latest
+    if: ${{ github.ref_name == 'main' || github.event_name == 'schedule' }}
+    steps:
+      - run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Current ref: ${{ github.ref }}"
+          echo "Current ref_name: ${{ github.ref_name }}"
