@@ -1,0 +1,15 @@
+---
+"on":
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  actionlint:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Event name: ${{ github.event_name }}"
+          echo "Current ref: ${{ github.ref }}"
+          echo "Current ref_name: ${{ github.ref_name }}"
+          echo "Github context: ${{ github }}"
