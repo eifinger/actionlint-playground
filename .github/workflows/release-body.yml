@@ -27,6 +27,7 @@ jobs:
           echo "lastReleaseTag=release/v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
           echo "releaseVersion=v$newReleaseVersion" >> "$GITHUB_OUTPUT"
 
+
   publish-release:
     name: "Publish successful release"
     needs: [determine-release-version]
