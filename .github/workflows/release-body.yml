@@ -47,10 +47,12 @@ jobs:
         run: |
           # Try to get PR title from the triggering event (if available)
           if [ -f "$GITHUB_EVENT_PATH" ]; then
+            cat "$GITHUB_EVENT_PATH"
             prTitle=$(jq -r '.pull_request.title // empty' "$GITHUB_EVENT_PATH")
           fi
           # Fallback: use latest commit message as PR title if not available
           if [ -z "$prTitle" ]; then
+            echo "Falling back to latest commit message as PR title"
             prTitle=$(git log -1 --pretty=format:'%s')
           fi
           BODY="# ${prTitle}"
