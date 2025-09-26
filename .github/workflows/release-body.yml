@@ -1,0 +1,61 @@
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  determine-release-version:
+  name: "Determine release version"
+  runs-on: ubuntu-latest
+  outputs:
+    releaseVersion: ${{ steps.determineReleaseVersion.outputs.releaseVersion }}
+    lastReleaseVersion: ${{ steps.determineReleaseVersion.outputs.lastReleaseVersion }}
+  permissions:
+    contents: write
+  steps:
+    # Note that the `fetch-depth: 0` actually makes this action fetch MORE, e.g. also tags
+    - name: Checkout
+      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+      with:
+        fetch-depth: 0
+
+    - name: Determine Release Version
+      id: determineReleaseVersion
+      run: |
+        set -x
+        lastReleaseVersion=$(git tag | grep 'release/v' | sed 's/release\/v//' | sort -nr | head -1)
+        (( newReleaseVersion = lastReleaseVersion + 1 ))
+        echo "lastReleaseVersion=v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
+        echo "releaseVersion=v$newReleaseVersion" >> "$GITHUB_OUTPUT"
+
+  publish-release:
+    name: "Publish successful release"
+    needs: [determine-release-version]
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: write
+    steps:
+      # gh tool below needs a valid `.git/` folder to be present.
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Create GitHub Release
+        env:
+          RELEASE_VERSION: ${{ needs.determine-release-version.outputs.releaseVersion }}
+          LAST_RELEASE_VERSION: ${{ needs.determine-release-version.outputs.lastReleaseVersion }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get commit messages since last release
+          commitMessages=$(git log --pretty=format:'- %s' "${LAST_RELEASE_VERSION}..HEAD")
+          # Try to get PR title from the triggering event (if available)
+          if [ -f "$GITHUB_EVENT_PATH" ]; then
+            prTitle=$(jq -r '.pull_request.title // empty' "$GITHUB_EVENT_PATH")
+          fi
+          # Fallback: use latest commit message as PR title if not available
+          if [ -z "$prTitle" ]; then
+            prTitle=$(git log -1 --pretty=format:'%s')
+          fi
+          BODY="# ${prTitle}\n\n## Commits since last release\n${commitMessages}"
+          gh release create "release/${RELEASE_VERSION}" -t "${RELEASE_VERSION}" -n "${BODY}"
