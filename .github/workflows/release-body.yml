@@ -13,7 +13,6 @@ jobs:
   permissions:
     contents: write
   steps:
-    # Note that the `fetch-depth: 0` actually makes this action fetch MORE, e.g. also tags
     - name: Checkout
       uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
       with:
@@ -36,7 +35,6 @@ jobs:
       actions: read
       contents: write
     steps:
-      # gh tool below needs a valid `.git/` folder to be present.
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
         with:
