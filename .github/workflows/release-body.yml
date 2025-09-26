@@ -55,5 +55,5 @@ jobs:
           if [ -z "$prTitle" ]; then
             prTitle=$(git log -1 --pretty=format:'%s')
           fi
-          BODY="# ${prTitle}\n\n## Commits since last release\n${commitMessages}"
+          BODY="# ${prTitle}</br></br>## Commits since last release</br>${commitMessages}"
           gh release create "release/${RELEASE_VERSION}" -t "${RELEASE_VERSION}" -n "${BODY}"
