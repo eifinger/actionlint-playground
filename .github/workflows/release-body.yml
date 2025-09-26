@@ -45,8 +45,6 @@ jobs:
           LAST_RELEASE_TAG: ${{ needs.determine-release-version.outputs.lastReleaseTag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get commit messages since last release
-          commitMessages=$(git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD")
           # Try to get PR title from the triggering event (if available)
           if [ -f "$GITHUB_EVENT_PATH" ]; then
             prTitle=$(jq -r '.pull_request.title // empty' "$GITHUB_EVENT_PATH")
@@ -55,5 +53,5 @@ jobs:
           if [ -z "$prTitle" ]; then
             prTitle=$(git log -1 --pretty=format:'%s')
           fi
-          BODY="# ${prTitle}</br></br>## Commits since last release</br>${commitMessages}"
+          BODY="# ${prTitle}"
           gh release create "release/${RELEASE_VERSION}" -t "${RELEASE_VERSION}" -n "${BODY}"
