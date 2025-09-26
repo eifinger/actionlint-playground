@@ -5,27 +5,27 @@ on:
 
 jobs:
   determine-release-version:
-  name: "Determine release version"
-  runs-on: ubuntu-latest
-  outputs:
-    releaseVersion: ${{ steps.determineReleaseVersion.outputs.releaseVersion }}
-    lastReleaseVersion: ${{ steps.determineReleaseVersion.outputs.lastReleaseVersion }}
-  permissions:
-    contents: write
-  steps:
-    - name: Checkout
-      uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
-      with:
-        fetch-depth: 0
+    name: "Determine release version"
+    runs-on: ubuntu-latest
+    outputs:
+      releaseVersion: ${{ steps.determineReleaseVersion.outputs.releaseVersion }}
+      lastReleaseVersion: ${{ steps.determineReleaseVersion.outputs.lastReleaseVersion }}
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        with:
+          fetch-depth: 0
 
-    - name: Determine Release Version
-      id: determineReleaseVersion
-      run: |
-        set -x
-        lastReleaseVersion=$(git tag | grep 'release/v' | sed 's/release\/v//' | sort -nr | head -1)
-        (( newReleaseVersion = lastReleaseVersion + 1 ))
-        echo "lastReleaseVersion=v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
-        echo "releaseVersion=v$newReleaseVersion" >> "$GITHUB_OUTPUT"
+      - name: Determine Release Version
+        id: determineReleaseVersion
+        run: |
+          set -x
+          lastReleaseVersion=$(git tag | grep 'release/v' | sed 's/release\/v//' | sort -nr | head -1)
+          (( newReleaseVersion = lastReleaseVersion + 1 ))
+          echo "lastReleaseVersion=v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
+          echo "releaseVersion=v$newReleaseVersion" >> "$GITHUB_OUTPUT"
 
   publish-release:
     name: "Publish successful release"
