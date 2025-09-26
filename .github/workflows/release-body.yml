@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       releaseVersion: ${{ steps.determineReleaseVersion.outputs.releaseVersion }}
-      lastReleaseVersion: ${{ steps.determineReleaseVersion.outputs.lastReleaseVersion }}
+      lastReleaseTag: ${{ steps.determineReleaseVersion.outputs.lastReleaseTag }}
     permissions:
       contents: write
     steps:
@@ -24,7 +24,7 @@ jobs:
           set -x
           lastReleaseVersion=$(git tag | grep 'release/v' | sed 's/release\/v//' | sort -nr | head -1)
           (( newReleaseVersion = lastReleaseVersion + 1 ))
-          echo "lastReleaseVersion=v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
+          echo "lastReleaseTag=release/v$lastReleaseVersion" >> "$GITHUB_OUTPUT"
           echo "releaseVersion=v$newReleaseVersion" >> "$GITHUB_OUTPUT"
 
   publish-release:
@@ -42,11 +42,11 @@ jobs:
       - name: Create GitHub Release
         env:
           RELEASE_VERSION: ${{ needs.determine-release-version.outputs.releaseVersion }}
-          LAST_RELEASE_VERSION: ${{ needs.determine-release-version.outputs.lastReleaseVersion }}
+          LAST_RELEASE_TAG: ${{ needs.determine-release-version.outputs.lastReleaseTag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get commit messages since last release
-          commitMessages=$(git log --pretty=format:'- %s' "${LAST_RELEASE_VERSION}..HEAD")
+          commitMessages=$(git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD")
           # Try to get PR title from the triggering event (if available)
           if [ -f "$GITHUB_EVENT_PATH" ]; then
             prTitle=$(jq -r '.pull_request.title // empty' "$GITHUB_EVENT_PATH")
