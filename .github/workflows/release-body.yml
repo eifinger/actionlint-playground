@@ -3,7 +3,6 @@ on:
     types: [closed]
   workflow_dispatch:
       
-
 jobs:
   determine-release-version:
     name: "Determine release version"
