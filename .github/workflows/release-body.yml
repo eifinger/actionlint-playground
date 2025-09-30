@@ -53,7 +53,7 @@ jobs:
             echo "# ${{ github.event.pull_request.title }}" >> releaseBody.txt
           else
             echo "# $(git log -1 --pretty=format:'%s')"
-            echo "# $(git log -1 --pretty=format:'%s')" >> releaseBody.txt
+            echo # $(git log -1 --pretty=format:'%s') >> releaseBody.txt
           fi
           # Append commit messages since last release
           echo $(git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD") >> releaseBody.txt
