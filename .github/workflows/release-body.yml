@@ -47,4 +47,5 @@ jobs:
           LAST_RELEASE_TAG: ${{ needs.determine-release-version.outputs.lastReleaseTag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo ${{ github.sha }}
           gh release create "release/${RELEASE_VERSION}" -t "${RELEASE_VERSION}" -n "${{ github.event.pull_request.title }}"
