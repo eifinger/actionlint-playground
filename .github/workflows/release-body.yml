@@ -56,7 +56,7 @@ jobs:
             echo # $(git log -1 --pretty=format:'%s') >> releaseBody.txt
           fi
           # Append commit messages since last release
-          echo $(git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD") >> releaseBody.txt
+          git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD" >> releaseBody.txt
           gh release create "release/${RELEASE_VERSION}" \
             --title "${RELEASE_VERSION}" \
             --notes-file "releaseBody.txt"
