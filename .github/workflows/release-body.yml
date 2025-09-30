@@ -7,7 +7,7 @@ on:
 jobs:
   determine-release-version:
     name: "Determine release version"
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: (github.event_name == 'pull_request' && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     outputs:
       releaseVersion: ${{ steps.determineReleaseVersion.outputs.releaseVersion }}
@@ -31,7 +31,7 @@ jobs:
 
   publish-release:
     name: "Publish successful release"
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
+    if: (github.event_name == 'pull_request' && github.event.pull_request.merged == true) || github.event_name == 'workflow_dispatch'
     needs: [determine-release-version]
     runs-on: ubuntu-latest
     permissions:
