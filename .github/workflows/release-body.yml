@@ -47,5 +47,14 @@ jobs:
           LAST_RELEASE_TAG: ${{ needs.determine-release-version.outputs.lastReleaseTag }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo ${{ github.sha }}
-          gh release create "release/${RELEASE_VERSION}" -t "${RELEASE_VERSION}" -n "${{ github.event.pull_request.title }}"
+          # Write PR title as body header, fallback to last commit message if not triggered by PR
+          if [ -n "${{ github.event.pull_request.title }}" ]; then
+            echo # ${{ github.event.pull_request.title }}\n\n >> releaseBody.txt
+          else
+            echo # $(git log -1 --pretty=format:'%s') >> releaseBody.txt
+          fi
+          # Append commit messages since last release
+          echo $(git log --pretty=format:'- %s' "${LAST_RELEASE_TAG}..HEAD") >> releaseBody.txt
+          gh release create "release/${RELEASE_VERSION}" \
+            --title "${RELEASE_VERSION}" \
+            --notes-file "releaseBody.txt"
