@@ -49,8 +49,10 @@ jobs:
         run: |
           # Write PR title as body header, fallback to last commit message if not triggered by PR
           if [ -n "${{ github.event.pull_request.title }}" ]; then
+            echo "# ${{ github.event.pull_request.title }}"
             echo # ${{ github.event.pull_request.title }}\n\n >> releaseBody.txt
           else
+            echo "# $(git log -1 --pretty=format:'%s')"
             echo # $(git log -1 --pretty=format:'%s') >> releaseBody.txt
           fi
           # Append commit messages since last release
